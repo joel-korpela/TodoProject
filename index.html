@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>A Fancy Todo App!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <div class="menu">
+        <div id="headerDiv" class="header">
+            <h1>My To Do List</h1>
+            <p class="introduction">In this todo list, you can add, check and remove your daily tasks</p>
+            <hr>
+            <input type="text" id="addedTask" placeholder="Write your task here">
+            <span onclick="newElement()" class="addBtn">Add Task</span>
+        </div>
+
+        <span onclick="clearElements()" class="removeAllBtn">Clear All Tasks</span>
+
+        <ul id="taskList">
+            <li>Play badminton</li>
+            <li>Throw darts</li>
+            <li>Watch football</li>
+            <li>Go fishing</li>
+            <li>Have fun!</li>
+        </ul>
+    </div>
+    <footer>
+        <p>
+            <a href="https://github.com/Joueli/TodoProject" target="_blank">Link to GitHub project</a>
+        </p>
+        <p>
+            <a href="https://www.w3schools.com/howto/howto_js_todolist.asp" target="_blank">Reference to project at W3Schools</a>
+        </p>
+    </footer>
+
+
+    <script>
+        var myNodelist = document.getElementsByTagName("LI");
+        var i;
+        for (i = 0; i < myNodelist.length; i++) {
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("\u00D7");
+            span.className = "close";
+            span.appendChild(txt);
+            myNodelist[i].appendChild(span);
+        }
+
+        var close = document.getElementsByClassName("close");
+        var i;
+        for (i = 0; i < close.length; i++) {
+            close[i].onclick = function () {
+                var div = this.parentElement;
+                div.style.display = "none";
+            }
+        }
+
+        var list = document.querySelector('ul');
+        list.addEventListener('click', function (ev) {
+            if (ev.target.tagName === 'LI') {
+                ev.target.classList.toggle('checked');
+            }
+        }, false);
+
+        function clearElements(){
+            var ul = document.getElementById("taskList");
+            while(ul.firstChild) ul.removeChild(ul.firstChild);
+        }
+        
+
+        function newElement() {
+            var li = document.createElement("li");
+            var inputValue = document.getElementById("addedTask").value;
+            var t = document.createTextNode(inputValue);
+            li.appendChild(t);
+            if (inputValue === '') {
+                alert("You must write something!");
+            } else {
+                document.getElementById("taskList").appendChild(li);
+            }
+            document.getElementById("addedTask").value = "";
+
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("\u00D7");
+            span.className = "close";
+            span.appendChild(txt);
+            li.appendChild(span);
+
+            for (i = 0; i < close.length; i++) {
+                close[i].onclick = function () {
+                    var div = this.parentElement;
+                    div.style.display = "none";
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>
