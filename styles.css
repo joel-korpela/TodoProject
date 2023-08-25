@@ -111,6 +111,23 @@ body {
   .removeAllBtn:hover {
     background-color: #f44336;
   }
+
+  .checkOrUncheckAll {
+    padding: 10px;
+    width: 25%;
+    background: #d9d9d9;
+    color: #555;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.5s;
+    display: table;
+    margin: 0 auto;
+    margin-top: 10px;
+  }
+
+  .checkOrUncheckAll:hover {
+    background-color: green;
+  }
   
   .addBtn {
     padding: 10px;

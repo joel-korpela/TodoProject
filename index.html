@@ -19,6 +19,8 @@
         </div>
 
         <span onclick="clearElements()" class="removeAllBtn">Clear All Tasks</span>
+        <span onclick="uncheckAll()" class="checkOrUncheckAll">Uncheck All Tasks</span>
+        <span onclick="checkAll()" class="checkOrUncheckAll">Check All Tasks</span>        
 
         <ul id="taskList">
         </ul>
@@ -33,23 +35,22 @@
     </footer>
 
 
-    <script>
+    <script>        
         var ul = document.querySelector('ul');
-        var myNodelist = document.getElementsByTagName("LI");
-
         var itemsArray = localStorage.getItem('items') ?
-            JSON.parse(localStorage.getItem('items')) : [];
-
+        JSON.parse(localStorage.getItem('items')) : [];
+        
         itemsArray.forEach(addTask);
         function addTask(text) {            
             const li = document.createElement('li')
             li.textContent = text.message;
-            if(text.checked == 1){
+            if(text.checked === 1){
                 li.classList.add("checked");
             }
             ul.appendChild(li);
         }
-
+        
+        var myNodelist = document.getElementsByTagName("LI");
         var i;
         for (i = 0; i < myNodelist.length; i++) {
             var span = document.createElement("SPAN");
@@ -58,6 +59,7 @@
             span.appendChild(txt);
             myNodelist[i].appendChild(span);
         }
+        
 
         var close = document.getElementsByClassName("close");
         var i;
@@ -71,8 +73,7 @@
             }
         }
 
-        var list = document.querySelector('ul');
-        list.addEventListener('click', function (ev) {
+        ul.addEventListener('click', function (ev) {
             if (ev.target.tagName === 'LI') {
                 ev.target.classList.toggle('checked');
                 var index = itemsArray.map(e => e.message).indexOf(ev.target.textContent.replace('×', ""));
@@ -93,6 +94,22 @@
                 newElement();
             }
         });
+
+        function uncheckAll(){
+            for (i = 0; i < itemsArray.length; i++) {
+                myNodelist[i].classList.remove("checked");
+                itemsArray[i]['checked'] = 0;
+            }
+            localStorage.setItem('items', JSON.stringify(itemsArray));
+        }
+
+        function checkAll(){
+            for (i = 0; i < itemsArray.length; i++) {
+                myNodelist[i].classList.add("checked");
+                itemsArray[i]['checked'] = 1;
+            }
+            localStorage.setItem('items', JSON.stringify(itemsArray));
+        }
         
         function clearElements() {
             localStorage.clear();
@@ -103,6 +120,13 @@
         function newElement() {
             var li = document.createElement("li");
             var inputValue = document.getElementById("addedTask").value;
+
+            if(itemsArray.some(e => e.message === inputValue )){
+                alert("Task is already in list!");
+                document.getElementById("addedTask").value = "";
+                return;
+            }
+
             var t = document.createTextNode(inputValue);
             li.appendChild(t);
             if (inputValue === '') {
