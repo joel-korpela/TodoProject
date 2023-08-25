@@ -21,11 +21,6 @@
         <span onclick="clearElements()" class="removeAllBtn">Clear All Tasks</span>
 
         <ul id="taskList">
-            <li>Play badminton</li>
-            <li>Throw darts</li>
-            <li>Watch football</li>
-            <li>Go fishing</li>
-            <li>Have fun!</li>
         </ul>
     </div>
     <footer>
@@ -33,13 +28,26 @@
             <a href="https://github.com/Joueli/TodoProject" target="_blank">Link to GitHub project</a>
         </p>
         <p>
-            <a href="https://www.w3schools.com/howto/howto_js_todolist.asp" target="_blank">Reference to project at W3Schools</a>
+            <a href="https://www.w3schools.com/howto/howto_js_todolist.asp" target="_blank">Reference to project at
+                W3Schools</a>
         </p>
     </footer>
 
 
     <script>
+        var ul = document.querySelector('ul');
         var myNodelist = document.getElementsByTagName("LI");
+
+        const itemsArray = localStorage.getItem('items') ?
+            JSON.parse(localStorage.getItem('items')) : [];
+
+        itemsArray.forEach(addTask);
+        function addTask(text) {            
+            const li = document.createElement('li')
+            li.textContent = text;
+            ul.appendChild(li);
+        }
+
         var i;
         for (i = 0; i < myNodelist.length; i++) {
             var span = document.createElement("SPAN");
@@ -54,7 +62,10 @@
         for (i = 0; i < close.length; i++) {
             close[i].onclick = function () {
                 var div = this.parentElement;
-                div.style.display = "none";
+                var index = itemsArray.indexOf(div.textContent.replace('×', ""));
+                itemsArray.splice(index, 1);
+                localStorage.setItem('items', JSON.stringify(itemsArray));
+                div.style.display = "none";                
             }
         }
 
@@ -65,13 +76,14 @@
             }
         }, false);
 
-        function clearElements(){
-            var ul = document.getElementById("taskList");
-            while(ul.firstChild) ul.removeChild(ul.firstChild);
+        function clearElements() {
+            localStorage.clear();
+            ul.innerHTML = '';
+            itemsArray = [];
         }
-        
+
         var input = document.getElementById("addedTask");
-        input.addEventListener("keyup", function(event) {
+        input.addEventListener("keyup", function (event) {
             if (event.keyCode === 13) {
                 newElement();
             }
@@ -86,6 +98,8 @@
                 alert("You must write something!");
             } else {
                 document.getElementById("taskList").appendChild(li);
+                itemsArray.push(inputValue);
+                localStorage.setItem('items', JSON.stringify(itemsArray));
             }
             document.getElementById("addedTask").value = "";
 
@@ -98,6 +112,9 @@
             for (i = 0; i < close.length; i++) {
                 close[i].onclick = function () {
                     var div = this.parentElement;
+                    var index = itemsArray.indexOf(div.textContent.replace('×', ""));
+                    itemsArray.splice(index, 1);
+                    localStorage.setItem('items', JSON.stringify(itemsArray));
                     div.style.display = "none";
                 }
             }
