@@ -28,8 +28,7 @@
             <a href="https://github.com/Joueli/TodoProject" target="_blank">Link to GitHub project</a>
         </p>
         <p>
-            <a href="https://www.w3schools.com/howto/howto_js_todolist.asp" target="_blank">Reference to project at
-                W3Schools</a>
+            <a href="https://www.w3schools.com/howto/howto_js_todolist.asp" target="_blank">Reference to project at W3Schools</a>
         </p>
     </footer>
 
@@ -38,13 +37,16 @@
         var ul = document.querySelector('ul');
         var myNodelist = document.getElementsByTagName("LI");
 
-        const itemsArray = localStorage.getItem('items') ?
+        var itemsArray = localStorage.getItem('items') ?
             JSON.parse(localStorage.getItem('items')) : [];
 
         itemsArray.forEach(addTask);
         function addTask(text) {            
             const li = document.createElement('li')
-            li.textContent = text;
+            li.textContent = text.message;
+            if(text.checked == 1){
+                li.classList.add("checked");
+            }
             ul.appendChild(li);
         }
 
@@ -62,7 +64,7 @@
         for (i = 0; i < close.length; i++) {
             close[i].onclick = function () {
                 var div = this.parentElement;
-                var index = itemsArray.indexOf(div.textContent.replace('×', ""));
+                var index = itemsArray.map(e => e.message).indexOf(div.textContent.replace('×', ""));
                 itemsArray.splice(index, 1);
                 localStorage.setItem('items', JSON.stringify(itemsArray));
                 div.style.display = "none";                
@@ -73,14 +75,17 @@
         list.addEventListener('click', function (ev) {
             if (ev.target.tagName === 'LI') {
                 ev.target.classList.toggle('checked');
+                var index = itemsArray.map(e => e.message).indexOf(ev.target.textContent.replace('×', ""));
+
+                if(ev.target.classList.contains("checked")){
+                    itemsArray[index]['checked'] = 1;
+                }else{
+                    itemsArray[index]['checked'] = 0;
+                }
+                
+                localStorage.setItem('items', JSON.stringify(itemsArray));
             }
         }, false);
-
-        function clearElements() {
-            localStorage.clear();
-            ul.innerHTML = '';
-            itemsArray = [];
-        }
 
         var input = document.getElementById("addedTask");
         input.addEventListener("keyup", function (event) {
@@ -88,6 +93,12 @@
                 newElement();
             }
         });
+        
+        function clearElements() {
+            localStorage.clear();
+            ul.innerHTML = '';
+            itemsArray = [];
+        }
 
         function newElement() {
             var li = document.createElement("li");
@@ -98,7 +109,7 @@
                 alert("You must write something!");
             } else {
                 document.getElementById("taskList").appendChild(li);
-                itemsArray.push(inputValue);
+                itemsArray.push({message: inputValue, checked:0});
                 localStorage.setItem('items', JSON.stringify(itemsArray));
             }
             document.getElementById("addedTask").value = "";
@@ -112,7 +123,7 @@
             for (i = 0; i < close.length; i++) {
                 close[i].onclick = function () {
                     var div = this.parentElement;
-                    var index = itemsArray.indexOf(div.textContent.replace('×', ""));
+                    var index = itemsArray.map(e => e.message).indexOf(div.textContent.replace('×', ""));
                     itemsArray.splice(index, 1);
                     localStorage.setItem('items', JSON.stringify(itemsArray));
                     div.style.display = "none";
