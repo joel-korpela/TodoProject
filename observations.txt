@@ -16,7 +16,7 @@ As an extra i made clear all button, check all button and uncheck all button and
 
 This was my first project with these technologies, and i was pleased how it felt to work this them.
 
-IDE i used Visual studio code, with extensions HTMLHint and Live Server
+IDE i used Visual studio code, with extensions HTMLHint and Live Server, and of course git, within visual code this time.
 
 Further improvements for later:
 - Make check/uncheck button as just one button which toggles the state.
