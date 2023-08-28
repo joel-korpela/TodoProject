@@ -1,0 +1,22 @@
+This todo list was made by using html, css and javascript, which all are outside my core skills. Nevertheless this was very refreshing project and insipired me alot. Here are some of the observations:
+
+Most of my observations are due to not having exprerience on javascript and could be better implemented/other way.
+
+1. Making array (itemsArray) var and not const could cause unwanted side effects, if this was developed further. Reason is to be able to emtpy it on Clear All.
+2. Javascript could be in its own file, but due to code being used just in this one file and lack of time, i decided to leave it there
+3. Buttons could be just buttons instead of spans, but spans looked a bit nicer to my eye
+4. There was also other options to localstorage, which is used to store the tasks and states of them. A database could have been an option, or also session storage (which didnt include storage of data if browser is closed). Local storage proved to be easiest and most efficient solution at this time
+5. Formating of javascript is bad and could be definitely optimized
+6. Creation of spans (close button on tasks) could be optimized (same code in two places)
+7. The look and feel could definitely be better
+8. Unit tests are missing
+9. Right now there are couple lists/arrays, itemsArray, myNodelist and lastly localstorage. Im not sure, but there probably could be a way to optimize it, to reduce the amount needed lists/arrays
+
+As an extra i made clear all button, check all button and uncheck all button and you can also press enter on the input to add task to the list. This was not part of the asked assignment, but rather inspired by it to try to add cool features.
+
+This was my first project with these technologies, and i was pleased how it felt to work this them.
+
+IDE i used Visual studio code, with extensions HTMLHint and Live Server
+
+Further improvements for later:
+- Make check/uncheck button as just one button which toggles the state.
